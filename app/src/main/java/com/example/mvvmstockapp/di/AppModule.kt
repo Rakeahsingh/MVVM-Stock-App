@@ -2,19 +2,16 @@ package com.example.mvvmstockapp.di
 
 import android.app.Application
 import androidx.room.Room
-import com.example.mvvmstockapp.stock_features.data.csv.CompanyListingsParser
 import com.example.mvvmstockapp.stock_features.data.local.StockDatabase
 import com.example.mvvmstockapp.stock_features.data.remote.StockApi
-import com.example.mvvmstockapp.stock_features.data.repository.StockRepositoryImpl
-import com.example.mvvmstockapp.stock_features.domain.repository.StockRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -35,7 +32,7 @@ object AppModule {
         return Retrofit.Builder()
             .baseUrl(StockApi.BASE_URL)
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create(StockApi::class.java)
     }
@@ -51,14 +48,5 @@ object AppModule {
             .build()
     }
 
-    @Provides
-    @Singleton
-    fun provideStockRepository(
-        api: StockApi,
-        db: StockDatabase,
-        companyListingsParser: CompanyListingsParser
-    ): StockRepository{
-        return StockRepositoryImpl(api, db.dao, companyListingsParser)
-    }
 
 }

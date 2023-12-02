@@ -12,7 +12,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,6 +29,10 @@ class CompanyListingViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     private var searchJob: Job? = null
+
+    init {
+        getCompanyListing()
+    }
 
     fun onEvent(event: CompanyListingEvent){
         when(event){
@@ -55,19 +58,19 @@ class CompanyListingViewModel @Inject constructor(
     ){
          viewModelScope.launch {
             repository.getCompanyListing(fetchFromRemote, query)
-                .onEach{ result ->
+                .collect{ result ->
                     when(result){
                         is Resources.Success -> {
-                            state = state.copy(
-                                companies = result.data ?: emptyList(),
-                                isLoading = false
-                            )
+                            result.data?.let {
+                                state = state.copy(
+                                    companies = it,
+                                    isLoading = false
+                                )
+                            }
+
                         }
                         is Resources.Error -> {
-                            state = state.copy(
-                                companies = result.data ?: emptyList(),
-                                isLoading = false
-                            )
+
                             _uiEvent.send(UiEvent.ShowSnackBar(
                                 message = "Unknown Error"
                             ))
@@ -75,8 +78,7 @@ class CompanyListingViewModel @Inject constructor(
                         }
                         is Resources.Loading -> {
                             state = state.copy(
-                                companies = result.data ?: emptyList(),
-                                isLoading = true
+                                isLoading = result.isLoading
                             )
                         }
                     }

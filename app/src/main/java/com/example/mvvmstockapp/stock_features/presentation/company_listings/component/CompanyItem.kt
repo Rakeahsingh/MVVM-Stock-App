@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.mvvmstockapp.stock_features.domain.model.CompanyListing
-import java.util.EventListener
 
 @Composable
 fun CompanyItem(
@@ -36,7 +35,7 @@ fun CompanyItem(
             ) {
                 Text(
                     text = company.name,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onBackground,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
@@ -46,13 +45,13 @@ fun CompanyItem(
 
                 Text(
                     text = company.exchange,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onBackground,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                 )
             }
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(2.dp))
 
             Text(
                 text = "(${company.symbol})",
