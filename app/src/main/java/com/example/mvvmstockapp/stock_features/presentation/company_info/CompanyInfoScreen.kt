@@ -3,6 +3,7 @@ package com.example.mvvmstockapp.stock_features.presentation.company_info
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -54,122 +55,128 @@ fun CompanyInfoScreen(
         }
     }
 
-    if (state.isLoading){
-        CircularProgressIndicator( color = Color.Green )
-    }else {
+    Box(modifier = Modifier.fillMaxSize()) {
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState())
-        ) {
-            state.company?.let { company ->
+        if (state.isLoading) {
+            CircularProgressIndicator(
+                color = Color.Green,
+                modifier = Modifier.align(Alignment.Center)
+                )
+        } else {
 
-                Text(
-                    text = company.name,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                state.company?.let { company ->
 
-                Text(
-                    text = company.symbol,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Light,
-                    fontStyle = FontStyle.Italic,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Divider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = "Sector: ${company.sector}",
-                    fontSize = 14.sp,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = "Industry: ${company.industry}",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Light,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Divider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp)
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
                     Text(
-                        text = "Country: ${company.country}",
+                        text = company.name,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = company.symbol,
                         fontSize = 14.sp,
-                        overflow = TextOverflow.Ellipsis
+                        fontWeight = FontWeight.Light,
+                        fontStyle = FontStyle.Italic,
+                        modifier = Modifier.fillMaxWidth()
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = "Currency: ${company.currency}",
-                        fontSize = 14.sp,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Divider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = company.description,
-                    fontSize = 12.sp,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Divider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-
-                if (state.stocksInfo.isNotEmpty()) {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = "Market Place",
-                        fontSize = 18.sp
-                    )
-                    Spacer(modifier = Modifier.height(32.dp))
-                    StockChart(
-                        infos = state.stocksInfo,
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Divider(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(250.dp)
-                            .align(Alignment.CenterHorizontally)
+                            .padding(vertical = 4.dp)
                     )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = "Sector: ${company.sector}",
+                        fontSize = 14.sp,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = "Industry: ${company.industry}",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Light,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp)
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Country: ${company.country}",
+                            fontSize = 14.sp,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "Currency: ${company.currency}",
+                            fontSize = 14.sp,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = company.description,
+                        fontSize = 12.sp,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    if (state.stocksInfo.isNotEmpty()) {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = "Market Place",
+                            fontSize = 18.sp
+                        )
+                        Spacer(modifier = Modifier.height(32.dp))
+                        StockChart(
+                            infos = state.stocksInfo,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(250.dp)
+                                .align(Alignment.CenterHorizontally)
+                        )
+                    }
+
                 }
 
             }
-
         }
     }
     

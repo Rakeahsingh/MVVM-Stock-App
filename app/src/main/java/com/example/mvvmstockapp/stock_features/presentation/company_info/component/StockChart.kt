@@ -1,5 +1,6 @@
 package com.example.mvvmstockapp.stock_features.presentation.company_info.component
 
+import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -16,7 +17,6 @@ import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.drawText
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mvvmstockapp.stock_features.domain.model.IntradayInfo
@@ -27,10 +27,9 @@ import kotlin.math.roundToInt
 @Composable
 fun StockChart(
     infos: List<IntradayInfo> = emptyList(),
-    modifier: Modifier = Modifier,
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
     graphColor: Color = Color.Green
 ) {
-
     val spacing = 100f
     val transparentGraphColor = remember {
         graphColor.copy(alpha = 0.5f)
@@ -122,6 +121,4 @@ fun StockChart(
             )
         )
     }
-
-
 }
